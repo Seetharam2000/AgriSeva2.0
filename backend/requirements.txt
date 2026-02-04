@@ -1,0 +1,14 @@
+fastapi
+uvicorn[standard]
+pydantic
+python-dotenv
+python-jose[cryptography]
+passlib[bcrypt]
+pandas
+prophet
+scikit-learn
+httpx
+python-multipart
+redis
+psycopg2-binary
+pymongo
