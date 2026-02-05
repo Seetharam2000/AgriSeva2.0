@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     CORS_ORIGINS: List[str] = [
         "http://localhost:5173",
         "http://127.0.0.1:5173",
+        "https://comfy-bunny-df7b0b.netlify.app",
     ]
 
     model_config = ConfigDict(env_file=".env")
