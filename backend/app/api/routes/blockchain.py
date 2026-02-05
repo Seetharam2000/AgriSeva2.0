@@ -16,7 +16,7 @@ class RegisterData(BaseModel):
 
 @router.post("/register-data")
 def register_data(payload: RegisterData):
-    log = payload.dict()
+    log = payload.model_dump()
     log["event"] = "register"
     log["timestamp"] = datetime.utcnow().isoformat()
     # Demo only: a real implementation would call the smart contract via web3.

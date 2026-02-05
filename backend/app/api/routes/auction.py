@@ -24,7 +24,7 @@ class BidCreate(BaseModel):
 
 @router.post("/create")
 def create_auction(payload: AuctionCreate):
-    auction = payload.dict()
+    auction = payload.model_dump()
     auction["bids"] = []
     auction["created_at"] = datetime.utcnow().isoformat()
     store.auctions.append(auction)
@@ -35,7 +35,7 @@ def create_auction(payload: AuctionCreate):
 def place_bid(payload: BidCreate):
     for auction in store.auctions:
         if auction["auction_id"] == payload.auction_id:
-            bid = payload.dict()
+            bid = payload.model_dump()
             bid["created_at"] = datetime.utcnow().isoformat()
             auction["bids"].append(bid)
             return {"status": "bid_received", "bid": bid}
