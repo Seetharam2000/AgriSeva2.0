@@ -10,7 +10,6 @@ from app.api.routes import (
     auction,
     blockchain,
     feedback,
-    chatbot,
 )
 from app.core.config import settings
 
@@ -36,7 +35,6 @@ app.include_router(ndvi.router, prefix="/ndvi", tags=["ndvi"])
 app.include_router(auction.router, prefix="/auction", tags=["auction"])
 app.include_router(blockchain.router, prefix="/blockchain", tags=["blockchain"])
 app.include_router(feedback.router, prefix="/feedback", tags=["feedback"])
-app.include_router(chatbot.router, prefix="/chatbot", tags=["chatbot"])
 
 
 @app.get("/")
