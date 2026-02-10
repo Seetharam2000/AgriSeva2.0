@@ -1,5 +1,5 @@
 from datetime import datetime
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 from app.store import store
@@ -37,9 +37,11 @@ def place_bid(payload: BidCreate):
         if auction["auction_id"] == payload.auction_id:
             bid = payload.model_dump()
             bid["created_at"] = datetime.utcnow().isoformat()
+            if "bids" not in auction:
+                auction["bids"] = []
             auction["bids"].append(bid)
             return {"status": "bid_received", "bid": bid}
-    return {"status": "not_found"}
+    raise HTTPException(status_code=404, detail="Auction not found")
 
 
 @router.get("/live")

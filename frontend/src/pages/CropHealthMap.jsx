@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, CircleMarker, Popup } from "react-leaflet";
 import client from "../api/client.js";
+import { INDIA_LOCATIONS } from "../data/locations.js";
+import { INDIA_CROPS } from "../data/crops.js";
 
 const healthColor = (health) => {
   if (health === "Healthy") return "#22c55e";
@@ -9,7 +11,7 @@ const healthColor = (health) => {
 };
 
 export default function CropHealthMap() {
-  const [region, setRegion] = useState("Nagpur");
+  const [region, setRegion] = useState("Maharashtra");
   const [crop, setCrop] = useState("Tomato");
   const [points, setPoints] = useState([]);
 
@@ -38,18 +40,28 @@ export default function CropHealthMap() {
       </section>
 
       <div className="card flex">
-        <input
+        <select
           className="input"
           value={region}
           onChange={(e) => setRegion(e.target.value)}
-          placeholder="Region"
-        />
-        <input
+        >
+          {INDIA_LOCATIONS.map((loc) => (
+            <option key={loc} value={loc}>
+              {loc}
+            </option>
+          ))}
+        </select>
+        <select
           className="input"
           value={crop}
           onChange={(e) => setCrop(e.target.value)}
-          placeholder="Crop"
-        />
+        >
+          {INDIA_CROPS.map((item) => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
+        </select>
         <button className="btn" onClick={loadMap}>
           Refresh Map
         </button>

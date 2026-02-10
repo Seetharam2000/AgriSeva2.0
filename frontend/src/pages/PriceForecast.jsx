@@ -10,12 +10,55 @@ import {
   Legend
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { INDIA_LOCATIONS } from "../data/locations.js";
+import { INDIA_CROPS } from "../data/crops.js";
 
 ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Tooltip, Legend);
 
+const seededRandom = (seed) => {
+  let value = seed % 2147483647;
+  if (value <= 0) value += 2147483646;
+  return () => (value = (value * 16807) % 2147483647) / 2147483647;
+};
+
+const buildDemoForecast = (crop, region, days = 30) => {
+  const seed =
+    crop.split("").reduce((sum, ch) => sum + ch.charCodeAt(0), 0) +
+    region.split("").reduce((sum, ch) => sum + ch.charCodeAt(0), 0);
+  const rand = seededRandom(seed);
+  const base = 1200 + Math.floor(rand() * 1200);
+  const trend = rand() > 0.5 ? 1 : -1;
+  const today = new Date();
+  const forecast = [];
+
+  for (let i = 0; i < days; i += 1) {
+    const date = new Date(today);
+    date.setDate(today.getDate() + i + 1);
+    const seasonal = Math.sin((i / days) * Math.PI * 2) * 90;
+    const noise = (rand() - 0.5) * 120;
+    const drift = trend * i * 6;
+    const price = Math.max(850, Math.round(base + seasonal + noise + drift));
+    forecast.push({
+      date: date.toISOString().slice(0, 10),
+      predicted_price: price
+    });
+  }
+
+  const best = forecast.reduce(
+    (acc, item) => (item.predicted_price > acc.predicted_price ? item : acc),
+    forecast[0]
+  );
+
+  return {
+    forecast,
+    best: { date: best.date, expected_price: best.predicted_price },
+    confidence: 0.72 + rand() * 0.15
+  };
+};
+
 export default function PriceForecast() {
   const [crop, setCrop] = useState("Tomato");
-  const [region, setRegion] = useState("Nagpur");
+  const [region, setRegion] = useState("Maharashtra");
   const [forecast, setForecast] = useState([]);
   const [best, setBest] = useState(null);
   const [confidence, setConfidence] = useState(0.78);
@@ -29,13 +72,10 @@ export default function PriceForecast() {
         setConfidence(res.data.confidence);
       })
       .catch(() => {
-        setForecast([
-          { date: "2025-04-18", predicted_price: 2100 },
-          { date: "2025-04-19", predicted_price: 2140 },
-          { date: "2025-04-20", predicted_price: 2180 }
-        ]);
-        setBest({ date: "2025-04-20", expected_price: 2180 });
-        setConfidence(0.74);
+        const demo = buildDemoForecast(crop, region);
+        setForecast(demo.forecast);
+        setBest(demo.best);
+        setConfidence(demo.confidence);
       });
   };
 
@@ -66,18 +106,28 @@ export default function PriceForecast() {
       </section>
 
       <div className="card flex">
-        <input
+        <select
           className="input"
           value={crop}
           onChange={(e) => setCrop(e.target.value)}
-          placeholder="Crop"
-        />
-        <input
+        >
+          {INDIA_CROPS.map((item) => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
+        </select>
+        <select
           className="input"
           value={region}
           onChange={(e) => setRegion(e.target.value)}
-          placeholder="Region"
-        />
+        >
+          {INDIA_LOCATIONS.map((loc) => (
+            <option key={loc} value={loc}>
+              {loc}
+            </option>
+          ))}
+        </select>
         <button className="btn" onClick={fetchForecast}>
           Refresh Forecast
         </button>

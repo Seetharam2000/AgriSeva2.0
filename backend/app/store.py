@@ -11,6 +11,7 @@ class InMemoryStore:
     crops: List[Dict[str, Any]] = field(default_factory=list)
     auctions: List[Dict[str, Any]] = field(default_factory=list)
     blockchain_logs: List[Dict[str, Any]] = field(default_factory=list)
+    feedbacks: List[Dict[str, Any]] = field(default_factory=list)
 
 
 store = InMemoryStore()

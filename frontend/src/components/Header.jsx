@@ -1,55 +1,63 @@
+import { useLanguage } from "../i18n.jsx";
+import logoImage from "../assets/agriseva-logo.jpeg";
+import flagImage from "../assets/india-flag.png";
+
+const languageOptions = [
+  { value: "en", label: "English" },
+  { value: "hi", label: "हिंदी" },
+  { value: "bn", label: "বাংলা" },
+  { value: "gu", label: "ગુજરાતી" },
+  { value: "mr", label: "मराठी" },
+  { value: "te", label: "తెలుగు" },
+  { value: "ta", label: "தமிழ்" },
+  { value: "kn", label: "ಕನ್ನಡ" },
+  { value: "ml", label: "മലയാളം" },
+  { value: "or", label: "ଓଡ଼ିଆ" },
+  { value: "pa", label: "ਪੰਜਾਬੀ" },
+  { value: "as", label: "অসমীয়া" }
+];
+
 export default function Header() {
-  const storedLanguage = localStorage.getItem("agriseva_lang") || "English";
-
-  const setLanguage = (event) => {
-    localStorage.setItem("agriseva_lang", event.target.value);
-  };
-
+  const { language, setLanguage, t } = useLanguage();
   return (
     <header className="topbar">
       <div className="topbar-left">
-        <div>
-          <div className="topbar-title">Agriseva Platform</div>
-          <div className="topbar-caption">
-            Empowering transparent, data-driven agricultural markets
+        <div className="topbar-brand">
+          <img
+            src={logoImage}
+            alt="Agriseva logo"
+            className="brand-logo"
+          />
+          <div>
+            <div className="topbar-title">{t("appTitle")}</div>
+            <div className="topbar-caption">{t("appCaption")}</div>
+            <div className="topbar-subtitle">{t("ministryEn")}</div>
+            <div className="topbar-subtitle">{t("ministryHi")}</div>
+            <div className="topbar-motto">{t("motto")}</div>
           </div>
-          <div className="topbar-subtitle">
-            Ministry of Agriculture & Farmers Welfare · Government of India
-          </div>
-          <div className="topbar-subtitle">
-            कृषि एवं किसान कल्याण मंत्रालय · भारत सरकार
-          </div>
-          <div className="topbar-motto">सत्यमेव जयते · Satyameva Jayate</div>
         </div>
       </div>
       <div className="topbar-actions">
-        <div className="flag-badge" aria-label="Indian flag">
-          <span className="flag-saffron" />
-          <span className="flag-white" />
-          <span className="flag-green" />
-        </div>
+        <img
+          src={flagImage}
+          alt="Indian flag"
+          className="flag-image"
+        />
         <label className="lang-label">
-          Language
+          {t("language")}
           <select
             className="lang-select"
-            defaultValue={storedLanguage}
-            onChange={setLanguage}
+            value={language}
+            onChange={(event) => setLanguage(event.target.value)}
           >
-            <option>English</option>
-            <option>हिंदी</option>
-            <option>বাংলা</option>
-            <option>ગુજરાતી</option>
-            <option>मराठी</option>
-            <option>తెలుగు</option>
-            <option>தமிழ்</option>
-            <option>ಕನ್ನಡ</option>
-            <option>മലയാളം</option>
-            <option>ଓଡ଼ିଆ</option>
-            <option>ਪੰਜਾਬੀ</option>
-            <option>অসমীয়া</option>
+            {languageOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </select>
         </label>
-        <span className="pill">Official Demo</span>
+        <span className="pill">{t("officialDemo")}</span>
       </div>
     </header>
   );

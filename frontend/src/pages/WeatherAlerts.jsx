@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import client from "../api/client.js";
+import { INDIA_LOCATIONS } from "../data/locations.js";
+import { INDIA_CROPS } from "../data/crops.js";
 
 export default function WeatherAlerts() {
-  const [region, setRegion] = useState("Nagpur");
+  const [region, setRegion] = useState("Maharashtra");
   const [crop, setCrop] = useState("Tomato");
   const [current, setCurrent] = useState(null);
   const [alerts, setAlerts] = useState([]);
@@ -37,18 +39,28 @@ export default function WeatherAlerts() {
       </section>
 
       <div className="card flex">
-        <input
+        <select
           className="input"
           value={region}
           onChange={(e) => setRegion(e.target.value)}
-          placeholder="Region"
-        />
-        <input
+        >
+          {INDIA_LOCATIONS.map((loc) => (
+            <option key={loc} value={loc}>
+              {loc}
+            </option>
+          ))}
+        </select>
+        <select
           className="input"
           value={crop}
           onChange={(e) => setCrop(e.target.value)}
-          placeholder="Crop"
-        />
+        >
+          {INDIA_CROPS.map((item) => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
+        </select>
         <button className="btn" onClick={loadWeather}>
           Refresh
         </button>
@@ -77,7 +89,7 @@ export default function WeatherAlerts() {
         </div>
       )}
 
-      <div className="section-title">Risk Alerts</div>
+      <div className="section-title light">Risk Alerts</div>
       {alerts.map((alert, idx) => (
         <div key={idx} className="alert">
           {alert}

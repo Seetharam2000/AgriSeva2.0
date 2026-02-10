@@ -9,6 +9,8 @@ from app.api.routes import (
     ndvi,
     auction,
     blockchain,
+    feedback,
+    chatbot,
 )
 from app.core.config import settings
 
@@ -20,7 +22,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS,
+    allow_origins=["*"] if settings.CORS_ALLOW_ALL else settings.CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -33,6 +35,8 @@ app.include_router(weather.router, prefix="/weather", tags=["weather"])
 app.include_router(ndvi.router, prefix="/ndvi", tags=["ndvi"])
 app.include_router(auction.router, prefix="/auction", tags=["auction"])
 app.include_router(blockchain.router, prefix="/blockchain", tags=["blockchain"])
+app.include_router(feedback.router, prefix="/feedback", tags=["feedback"])
+app.include_router(chatbot.router, prefix="/chatbot", tags=["chatbot"])
 
 
 @app.get("/")

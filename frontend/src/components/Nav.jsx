@@ -1,6 +1,8 @@
 import { NavLink } from "react-router-dom";
+import { useLanguage } from "../i18n.jsx";
 
 export default function Nav() {
+  const { t } = useLanguage();
   const enamOptions = [
     { label: "Commodity", href: "https://enam.gov.in/web/commodity" },
     { label: "State Unified License", href: "https://enam.gov.in/web/state-unified-license" },
@@ -37,22 +39,46 @@ export default function Nav() {
       <div className="brand">Agriseva · अग्रीसेवा</div>
       <nav>
         <NavLink className="nav-link" to="/login">
-          Aadhaar Login
+          {t("aadhaarLogin")}
         </NavLink>
         <NavLink className="nav-link" to="/dashboard">
-          Farmer Dashboard
+          {t("dashboard")}
         </NavLink>
         <NavLink className="nav-link" to="/prices">
-          Price Forecast
+          {t("priceForecast")}
         </NavLink>
         <NavLink className="nav-link" to="/weather">
-          Weather Alerts
+          {t("weatherAlerts")}
         </NavLink>
         <NavLink className="nav-link" to="/ndvi">
-          Crop Health Map
+          {t("cropHealth")}
         </NavLink>
         <NavLink className="nav-link" to="/auction">
-          Auction Listings
+          {t("auctions")}
+        </NavLink>
+        <NavLink className="nav-link" to="/gps">
+          GPS Locator
+        </NavLink>
+        <NavLink className="nav-link" to="/feedback">
+          {t("feedback")}
+        </NavLink>
+        <NavLink className="nav-link" to="/about">
+          About
+        </NavLink>
+        <NavLink className="nav-link" to="/payments">
+          Payments
+        </NavLink>
+        <NavLink className="nav-link" to="/ngo-volunteering">
+          NGO-Volunteering
+        </NavLink>
+        <NavLink className="nav-link" to="/ads">
+          Ads & Workshops
+        </NavLink>
+        <NavLink className="nav-link" to="/premium">
+          Premium
+        </NavLink>
+        <NavLink className="nav-link" to="/founders">
+          Meet the Founders
         </NavLink>
       </nav>
 
@@ -104,6 +130,9 @@ export default function Nav() {
           </NavLink>
           <NavLink className="btn-link sidebar-link" to="/auction">
             Blockchain-Ready Auctions
+          </NavLink>
+          <NavLink className="btn-link sidebar-link" to="/gps">
+            GPS Market Locator
           </NavLink>
         </div>
       </details>
