@@ -57,33 +57,57 @@ export default function Nav() {
           {t("auctions")}
         </NavLink>
         <NavLink className="nav-link" to="/gps">
-          GPS Locator
+          {t("navGps")}
+        </NavLink>
+        <NavLink className="nav-link" to="/mandi-compare">
+          {t("navMandiCompare")}
+        </NavLink>
+        <NavLink className="nav-link" to="/smart-alerts">
+          {t("navSmartAlerts")}
+        </NavLink>
+        <NavLink className="nav-link" to="/crop-calendar">
+          {t("navCropCalendar")}
+        </NavLink>
+        <NavLink className="nav-link" to="/soil-advisory">
+          {t("navSoilAdvisory")}
+        </NavLink>
+        <NavLink className="nav-link" to="/transport-pooling">
+          {t("navTransportPooling")}
+        </NavLink>
+        <NavLink className="nav-link" to="/credit-insurance">
+          {t("navCreditInsurance")}
+        </NavLink>
+        <NavLink className="nav-link" to="/traceability">
+          {t("navTraceability")}
+        </NavLink>
+        <NavLink className="nav-link" to="/grievance">
+          {t("navGrievance")}
         </NavLink>
         <NavLink className="nav-link" to="/feedback">
           {t("feedback")}
         </NavLink>
         <NavLink className="nav-link" to="/about">
-          About
+          {t("navAbout")}
         </NavLink>
         <NavLink className="nav-link" to="/payments">
-          Payments
+          {t("navPayments")}
         </NavLink>
         <NavLink className="nav-link" to="/ngo-volunteering">
-          NGO-Volunteering
+          {t("navNgoVolunteering")}
         </NavLink>
         <NavLink className="nav-link" to="/ads">
-          Ads & Workshops
+          {t("navAds")}
         </NavLink>
         <NavLink className="nav-link" to="/premium">
-          Premium
+          {t("navPremium")}
         </NavLink>
         <NavLink className="nav-link" to="/founders">
-          Meet the Founders
+          {t("navFounders")}
         </NavLink>
       </nav>
 
       <details className="nav-dropdown">
-        <summary>e-NAM Portal</summary>
+        <summary>{t("enamPortal")}</summary>
         <div className="sidebar-links">
           {enamOptions.map((option) => (
             <a
@@ -100,7 +124,7 @@ export default function Nav() {
       </details>
 
       <details className="nav-dropdown">
-        <summary>What’s New</summary>
+        <summary>{t("whatsNew")}</summary>
         <div className="sidebar-links">
           {enamWhatsNew.map((item) => (
             <a
@@ -117,22 +141,46 @@ export default function Nav() {
       </details>
 
       <details className="nav-dropdown">
-        <summary>Agriseva Extras</summary>
+        <summary>{t("agrisevaExtras")}</summary>
         <div className="sidebar-links">
           <NavLink className="btn-link sidebar-link" to="/prices">
-            AI Price Forecast
+            {t("aiPriceForecast")}
           </NavLink>
           <NavLink className="btn-link sidebar-link" to="/weather">
-            Weather Risk Alerts
+            {t("weatherRiskAlerts")}
           </NavLink>
           <NavLink className="btn-link sidebar-link" to="/ndvi">
-            NDVI Crop Health Map
+            {t("ndviCropHealth")}
           </NavLink>
           <NavLink className="btn-link sidebar-link" to="/auction">
-            Blockchain-Ready Auctions
+            {t("blockchainAuctions")}
           </NavLink>
           <NavLink className="btn-link sidebar-link" to="/gps">
-            GPS Market Locator
+            {t("gpsMarketLocator")}
+          </NavLink>
+          <NavLink className="btn-link sidebar-link" to="/mandi-compare">
+            {t("navMandiCompare")}
+          </NavLink>
+          <NavLink className="btn-link sidebar-link" to="/smart-alerts">
+            {t("navSmartAlerts")}
+          </NavLink>
+          <NavLink className="btn-link sidebar-link" to="/crop-calendar">
+            {t("navCropCalendar")}
+          </NavLink>
+          <NavLink className="btn-link sidebar-link" to="/soil-advisory">
+            {t("navSoilAdvisory")}
+          </NavLink>
+          <NavLink className="btn-link sidebar-link" to="/transport-pooling">
+            {t("navTransportPooling")}
+          </NavLink>
+          <NavLink className="btn-link sidebar-link" to="/credit-insurance">
+            {t("navCreditInsurance")}
+          </NavLink>
+          <NavLink className="btn-link sidebar-link" to="/traceability">
+            {t("navTraceability")}
+          </NavLink>
+          <NavLink className="btn-link sidebar-link" to="/grievance">
+            {t("grievanceTitle")}
           </NavLink>
         </div>
       </details>

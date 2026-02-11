@@ -16,6 +16,14 @@ import Ads from "./pages/Ads.jsx";
 import Premium from "./pages/Premium.jsx";
 import Founders from "./pages/Founders.jsx";
 import GpsLocator from "./pages/GpsLocator.jsx";
+import MandiCompare from "./pages/MandiCompare.jsx";
+import SmartAlerts from "./pages/SmartAlerts.jsx";
+import CropCalendar from "./pages/CropCalendar.jsx";
+import SoilAdvisory from "./pages/SoilAdvisory.jsx";
+import TransportPooling from "./pages/TransportPooling.jsx";
+import CreditInsurance from "./pages/CreditInsurance.jsx";
+import TraceabilityQR from "./pages/TraceabilityQR.jsx";
+import Grievance from "./pages/Grievance.jsx";
 
 export default function App() {
   const location = useLocation();
@@ -43,6 +51,14 @@ export default function App() {
             <Route path="/premium" element={<Premium />} />
             <Route path="/founders" element={<Founders />} />
             <Route path="/gps" element={<GpsLocator />} />
+            <Route path="/mandi-compare" element={<MandiCompare />} />
+            <Route path="/smart-alerts" element={<SmartAlerts />} />
+            <Route path="/crop-calendar" element={<CropCalendar />} />
+            <Route path="/soil-advisory" element={<SoilAdvisory />} />
+            <Route path="/transport-pooling" element={<TransportPooling />} />
+            <Route path="/credit-insurance" element={<CreditInsurance />} />
+            <Route path="/traceability" element={<TraceabilityQR />} />
+            <Route path="/grievance" element={<Grievance />} />
           </Routes>
         </main>
         {!isLogin && <Chatbot />}
