@@ -17,11 +17,19 @@ const languageOptions = [
   { value: "as", label: "অসমীয়া" }
 ];
 
-export default function Header() {
+export default function Header({ onMenuClick }) {
   const { language, setLanguage, t } = useLanguage();
   return (
     <header className="topbar">
       <div className="topbar-left">
+        <button
+          type="button"
+          className="nav-menu-btn"
+          onClick={onMenuClick}
+          aria-label="Open menu"
+        >
+          ☰
+        </button>
         <div className="topbar-brand">
           <img
             src={logoImage}

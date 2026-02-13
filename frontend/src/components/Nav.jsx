@@ -1,8 +1,9 @@
 import { NavLink } from "react-router-dom";
 import { useLanguage } from "../i18n.jsx";
 
-export default function Nav() {
+export default function Nav({ isOpen, onClose }) {
   const { t } = useLanguage();
+  const linkProps = { onClick: onClose };
   const enamOptions = [
     { label: "Commodity", href: "https://enam.gov.in/web/commodity" },
     { label: "State Unified License", href: "https://enam.gov.in/web/state-unified-license" },
@@ -35,73 +36,73 @@ export default function Nav() {
   ];
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${isOpen ? "sidebar-mobile-open" : ""}`}>
       <div className="brand">Agriseva · अग्रीसेवा</div>
       <nav>
-        <NavLink className="nav-link" to="/login">
+        <NavLink className="nav-link" to="/login" {...linkProps}>
           {t("aadhaarLogin")}
         </NavLink>
-        <NavLink className="nav-link" to="/dashboard">
+        <NavLink className="nav-link" to="/dashboard" {...linkProps}>
           {t("dashboard")}
         </NavLink>
-        <NavLink className="nav-link" to="/prices">
+        <NavLink className="nav-link" to="/prices" {...linkProps}>
           {t("priceForecast")}
         </NavLink>
-        <NavLink className="nav-link" to="/weather">
+        <NavLink className="nav-link" to="/weather" {...linkProps}>
           {t("weatherAlerts")}
         </NavLink>
-        <NavLink className="nav-link" to="/ndvi">
+        <NavLink className="nav-link" to="/ndvi" {...linkProps}>
           {t("cropHealth")}
         </NavLink>
-        <NavLink className="nav-link" to="/auction">
+        <NavLink className="nav-link" to="/auction" {...linkProps}>
           {t("auctions")}
         </NavLink>
-        <NavLink className="nav-link" to="/gps">
+        <NavLink className="nav-link" to="/gps" {...linkProps}>
           {t("navGps")}
         </NavLink>
-        <NavLink className="nav-link" to="/mandi-compare">
+        <NavLink className="nav-link" to="/mandi-compare" {...linkProps}>
           {t("navMandiCompare")}
         </NavLink>
-        <NavLink className="nav-link" to="/smart-alerts">
+        <NavLink className="nav-link" to="/smart-alerts" {...linkProps}>
           {t("navSmartAlerts")}
         </NavLink>
-        <NavLink className="nav-link" to="/crop-calendar">
+        <NavLink className="nav-link" to="/crop-calendar" {...linkProps}>
           {t("navCropCalendar")}
         </NavLink>
-        <NavLink className="nav-link" to="/soil-advisory">
+        <NavLink className="nav-link" to="/soil-advisory" {...linkProps}>
           {t("navSoilAdvisory")}
         </NavLink>
-        <NavLink className="nav-link" to="/transport-pooling">
+        <NavLink className="nav-link" to="/transport-pooling" {...linkProps}>
           {t("navTransportPooling")}
         </NavLink>
-        <NavLink className="nav-link" to="/credit-insurance">
+        <NavLink className="nav-link" to="/credit-insurance" {...linkProps}>
           {t("navCreditInsurance")}
         </NavLink>
-        <NavLink className="nav-link" to="/traceability">
+        <NavLink className="nav-link" to="/traceability" {...linkProps}>
           {t("navTraceability")}
         </NavLink>
-        <NavLink className="nav-link" to="/grievance">
+        <NavLink className="nav-link" to="/grievance" {...linkProps}>
           {t("navGrievance")}
         </NavLink>
-        <NavLink className="nav-link" to="/feedback">
+        <NavLink className="nav-link" to="/feedback" {...linkProps}>
           {t("feedback")}
         </NavLink>
-        <NavLink className="nav-link" to="/about">
+        <NavLink className="nav-link" to="/about" {...linkProps}>
           {t("navAbout")}
         </NavLink>
-        <NavLink className="nav-link" to="/payments">
+        <NavLink className="nav-link" to="/payments" {...linkProps}>
           {t("navPayments")}
         </NavLink>
-        <NavLink className="nav-link" to="/ngo-volunteering">
+        <NavLink className="nav-link" to="/ngo-volunteering" {...linkProps}>
           {t("navNgoVolunteering")}
         </NavLink>
-        <NavLink className="nav-link" to="/ads">
+        <NavLink className="nav-link" to="/ads" {...linkProps}>
           {t("navAds")}
         </NavLink>
-        <NavLink className="nav-link" to="/premium">
+        <NavLink className="nav-link" to="/premium" {...linkProps}>
           {t("navPremium")}
         </NavLink>
-        <NavLink className="nav-link" to="/founders">
+        <NavLink className="nav-link" to="/founders" {...linkProps}>
           {t("navFounders")}
         </NavLink>
       </nav>

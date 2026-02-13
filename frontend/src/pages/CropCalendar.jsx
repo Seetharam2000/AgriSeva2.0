@@ -25,9 +25,8 @@ export default function CropCalendar() {
       .post("/calendar/", { crop, region })
       .catch(() => {
         // Try GET endpoint as fallback
-        return client.get("/calendar/calendar", { params: { crop, region } });
+        return client.get("/calendar/", { params: { crop, region } });
       })
-      .then((res) => {
       .then((res) => {
         setLoading(false);
         if (res.data && res.data.schedule) {

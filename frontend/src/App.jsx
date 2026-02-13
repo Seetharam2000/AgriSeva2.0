@@ -1,3 +1,4 @@
+ import { useState } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Nav from "./components/Nav.jsx";
 import Header from "./components/Header.jsx";
@@ -28,12 +29,22 @@ import Grievance from "./pages/Grievance.jsx";
 export default function App() {
   const location = useLocation();
   const isLogin = location.pathname === "/login";
+  const [navOpen, setNavOpen] = useState(false);
 
   return (
     <div className={isLogin ? "login-shell" : "app-shell app-bg"}>
-      {!isLogin && <Nav />}
+      {!isLogin && (
+        <>
+          <div
+            className={`sidebar-backdrop ${navOpen ? "sidebar-backdrop-visible" : ""}`}
+            onClick={() => setNavOpen(false)}
+            aria-hidden="true"
+          />
+          <Nav isOpen={navOpen} onClose={() => setNavOpen(false)} />
+        </>
+      )}
       <div className="main-area">
-        {!isLogin && <Header />}
+        {!isLogin && <Header onMenuClick={() => setNavOpen((v) => !v)} />}
         <main className={isLogin ? "login-page" : "page"}>
           <Routes>
             <Route path="/login" element={<Login />} />

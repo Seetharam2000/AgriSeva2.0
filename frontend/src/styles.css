@@ -538,3 +538,208 @@ body {
 .chatbot-btn.secondary {
   background: #0b2e59;
 }
+
+/* ---------- Mobile / responsive ---------- */
+:root {
+  --mobile-breakpoint: 768px;
+  --touch-min: 44px;
+}
+
+.sidebar-backdrop {
+  display: none;
+}
+
+/* App shell: on mobile single column, sidebar becomes overlay */
+@media (max-width: 768px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(320px, 85vw);
+    height: 100vh;
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .sidebar.sidebar-mobile-open {
+    transform: translateX(0);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.2);
+  }
+
+  .sidebar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .sidebar-backdrop.sidebar-backdrop-visible {
+    display: block;
+    opacity: 1;
+  }
+
+  .main-area {
+    min-height: 100vh;
+  }
+
+  .page {
+    padding: 16px 12px 24px;
+  }
+
+  .topbar {
+    padding: 12px 16px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .topbar-brand {
+    flex: 1;
+    min-width: 0;
+    gap: 10px;
+  }
+
+  .brand-logo {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+  }
+
+  .topbar-title {
+    font-size: 1rem;
+  }
+
+  .topbar-caption,
+  .topbar-subtitle,
+  .topbar-motto {
+    font-size: 0.75rem;
+  }
+
+  .topbar-actions {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .flag-image {
+    width: 40px;
+    height: 28px;
+  }
+
+  .hero {
+    padding: 18px 16px;
+    margin-bottom: 16px;
+    border-radius: 14px;
+  }
+
+  .hero h1 {
+    font-size: 1.35rem;
+  }
+
+  .hero p {
+    font-size: 0.9rem;
+  }
+
+  .card {
+    padding: 14px;
+  }
+
+  .flex {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .flex .input,
+  .flex select,
+  .flex .btn {
+    margin: 0;
+    min-height: var(--touch-min);
+  }
+
+  .btn,
+  .btn-link {
+    min-height: var(--touch-min);
+    padding: 12px 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav-link {
+    padding: 12px 14px;
+    min-height: var(--touch-min);
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-menu-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--touch-min);
+    height: var(--touch-min);
+    padding: 0;
+    border: none;
+    border-radius: 10px;
+    background: #e2e8f0;
+    color: #0f172a;
+    cursor: pointer;
+    font-size: 1.4rem;
+  }
+
+  .nav-menu-btn:active {
+    background: #cbd5e1;
+  }
+
+  /* Chatbot: full width on mobile, easier to tap */
+  .chatbot {
+    left: 12px;
+    right: 12px;
+    width: auto;
+    max-width: 100%;
+    bottom: 12px;
+  }
+
+  .chatbot.closed {
+    width: auto;
+    left: 12px;
+    right: 12px;
+  }
+
+  .chatbot-messages {
+    height: 180px;
+  }
+
+  .chatbot-input,
+  .chatbot-btn {
+    min-height: var(--touch-min);
+  }
+
+  .map-container {
+    height: 280px;
+  }
+
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .form-grid .flex {
+    flex-direction: column;
+  }
+}
+
+/* Hide hamburger on desktop */
+@media (min-width: 769px) {
+  .nav-menu-btn {
+    display: none;
+  }
+}
