@@ -11,6 +11,10 @@ from app.api.routes import (
     blockchain,
     feedback,
     chatbot,
+    calendar,
+    soil,
+    transport,
+    mandi,
 )
 from app.core.config import settings
 
@@ -37,6 +41,10 @@ app.include_router(auction.router, prefix="/auction", tags=["auction"])
 app.include_router(blockchain.router, prefix="/blockchain", tags=["blockchain"])
 app.include_router(feedback.router, prefix="/feedback", tags=["feedback"])
 app.include_router(chatbot.router, prefix="/chatbot", tags=["chatbot"])
+app.include_router(calendar.router, prefix="/calendar", tags=["calendar"])
+app.include_router(soil.router, prefix="/soil", tags=["soil"])
+app.include_router(transport.router, prefix="/transport", tags=["transport"])
+app.include_router(mandi.router, prefix="/mandi", tags=["mandi"])
 
 
 @app.get("/")

@@ -42,6 +42,10 @@ const BANKS = [
 
 export default function Payments() {
   const [query, setQuery] = useState("");
+  const [upiId, setUpiId] = useState("");
+  const [amount, setAmount] = useState("");
+  const [note, setNote] = useState("Agriseva payment");
+  const [upiStatus, setUpiStatus] = useState("");
 
   const filtered = useMemo(() => {
     const value = query.trim().toLowerCase();
@@ -58,6 +62,55 @@ export default function Payments() {
           settlement.
         </p>
       </section>
+
+      <div className="card" style={{ marginBottom: 20 }}>
+        <h3>UPI Payment</h3>
+        <div className="muted" style={{ marginBottom: 12 }}>
+          Pay instantly using UPI apps like GPay, PhonePe, or Paytm.
+        </div>
+        <div className="form-grid">
+          <input
+            className="input"
+            value={upiId}
+            onChange={(event) => setUpiId(event.target.value)}
+            placeholder="UPI ID (e.g., name@bank)"
+          />
+          <input
+            className="input"
+            value={amount}
+            onChange={(event) => setAmount(event.target.value)}
+            placeholder="Amount (INR)"
+          />
+          <input
+            className="input"
+            value={note}
+            onChange={(event) => setNote(event.target.value)}
+            placeholder="Payment note"
+          />
+          <button
+            className="btn"
+            onClick={() => {
+              if (!upiId) {
+                setUpiStatus("Enter a valid UPI ID.");
+                return;
+              }
+              const params = new URLSearchParams({
+                pa: upiId,
+                pn: "Agriseva",
+                am: amount || "0",
+                tn: note || "Agriseva payment",
+                cu: "INR",
+              });
+              const url = `upi://pay?${params.toString()}`;
+              window.location.href = url;
+              setUpiStatus("Opening UPI app...");
+            }}
+          >
+            Pay via UPI
+          </button>
+        </div>
+        {upiStatus && <div className="pill" style={{ marginTop: 12 }}>{upiStatus}</div>}
+      </div>
 
       <div className="card">
         <h3>Choose Bank</h3>

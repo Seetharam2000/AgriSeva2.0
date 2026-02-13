@@ -1,5 +1,5 @@
 fastapi
-uvicorn[standard]
+uvicorn
 pydantic
 pydantic-settings
 email-validator
@@ -14,3 +14,4 @@ python-multipart
 redis
 psycopg2-binary
 pymongo
+google-generativeai

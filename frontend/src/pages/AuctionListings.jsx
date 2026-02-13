@@ -17,6 +17,23 @@ export default function AuctionListings() {
     region: "Maharashtra"
   });
 
+  const demoAuctions = [
+    {
+      auction_id: "AUC-1001",
+      crop: "Tomato",
+      quantity_kg: 500,
+      base_price: 1800,
+      region: "Maharashtra"
+    },
+    {
+      auction_id: "AUC-1002",
+      crop: "Tomato",
+      quantity_kg: 500,
+      base_price: 1800,
+      region: "Tripura"
+    }
+  ];
+
   const loadAuctions = () => {
     client
       .get("/auction/live")
@@ -27,7 +44,11 @@ export default function AuctionListings() {
           seedAuctions();
         }
       })
-      .catch(() => setAuctions([]));
+      .catch(() => {
+        setAuctions(demoAuctions);
+        setSeeded(true);
+        setStatus("Backend unavailable. Showing demo auctions.");
+      });
   };
 
   const seedAuctions = async () => {
@@ -35,22 +56,6 @@ export default function AuctionListings() {
       return;
     }
     setSeeded(true);
-    const demoAuctions = [
-      {
-        auction_id: "AUC-1001",
-        crop: "Tomato",
-        quantity_kg: 500,
-        base_price: 1800,
-        region: "Maharashtra"
-      },
-      {
-        auction_id: "AUC-1002",
-        crop: "Tomato",
-        quantity_kg: 500,
-        base_price: 1800,
-        region: "Tripura"
-      }
-    ];
     await Promise.all(
       demoAuctions.map((item) =>
         client.post("/auction/create", item).catch(() => null)
@@ -70,7 +75,8 @@ export default function AuctionListings() {
       await loadAuctions();
       setStatus("Auction launched successfully.");
     } catch (error) {
-      setStatus("Unable to launch auction. Please try again.");
+      setAuctions((prev) => [...prev, { ...form, bids: [] }]);
+      setStatus("Backend unavailable. Auction created in demo mode.");
     }
   };
 
@@ -97,7 +103,20 @@ export default function AuctionListings() {
         )
       );
     } catch (error) {
-      setStatus("Unable to place bid. Please try again.");
+      setAuctions((prev) =>
+        prev.map((item) =>
+          item.auction_id === auction.auction_id
+            ? {
+                ...item,
+                bids: [
+                  ...(item.bids || []),
+                  { bidder: "AgroMart Co.", price: bidPrice }
+                ]
+              }
+            : item
+        )
+      );
+      setStatus("Backend unavailable. Bid saved in demo mode.");
     }
   };
 
