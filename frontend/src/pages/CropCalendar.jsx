@@ -27,6 +27,7 @@ export default function CropCalendar() {
         // Try GET endpoint as fallback
         return client.get("/calendar/", { params: { crop, region } });
       })
+      // Single .then handler - no duplicate
       .then((res) => {
         setLoading(false);
         if (res.data && res.data.schedule) {
