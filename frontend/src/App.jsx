@@ -1,8 +1,11 @@
- import { useState } from "react";
+import { useState } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Nav from "./components/Nav.jsx";
 import Header from "./components/Header.jsx";
 import Chatbot from "./components/Chatbot.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import AuthRedirect from "./components/AuthRedirect.jsx";
+import LoginRedirect from "./components/LoginRedirect.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Login from "./pages/Login.jsx";
 import PriceForecast from "./pages/PriceForecast.jsx";
@@ -47,29 +50,162 @@ export default function App() {
         {!isLogin && <Header onMenuClick={() => setNavOpen((v) => !v)} />}
         <main className={isLogin ? "login-page" : "page"}>
           <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/" element={<Navigate to="/login" replace />} />
-            <Route path="/prices" element={<PriceForecast />} />
-            <Route path="/weather" element={<WeatherAlerts />} />
-            <Route path="/ndvi" element={<CropHealthMap />} />
-            <Route path="/auction" element={<AuctionListings />} />
-            <Route path="/feedback" element={<Feedback />} />
+            <Route path="/login" element={<LoginRedirect />} />
+            <Route path="/" element={<AuthRedirect />} />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/prices"
+              element={
+                <ProtectedRoute>
+                  <PriceForecast />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/weather"
+              element={
+                <ProtectedRoute>
+                  <WeatherAlerts />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/ndvi"
+              element={
+                <ProtectedRoute>
+                  <CropHealthMap />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/auction"
+              element={
+                <ProtectedRoute>
+                  <AuctionListings />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/feedback"
+              element={
+                <ProtectedRoute>
+                  <Feedback />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/about" element={<About />} />
-            <Route path="/payments" element={<Payments />} />
-            <Route path="/ngo-volunteering" element={<NgoVolunteering />} />
-            <Route path="/ads" element={<Ads />} />
-            <Route path="/premium" element={<Premium />} />
+            <Route
+              path="/payments"
+              element={
+                <ProtectedRoute>
+                  <Payments />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/ngo-volunteering"
+              element={
+                <ProtectedRoute>
+                  <NgoVolunteering />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/ads"
+              element={
+                <ProtectedRoute>
+                  <Ads />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/premium"
+              element={
+                <ProtectedRoute>
+                  <Premium />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/founders" element={<Founders />} />
-            <Route path="/gps" element={<GpsLocator />} />
-            <Route path="/mandi-compare" element={<MandiCompare />} />
-            <Route path="/smart-alerts" element={<SmartAlerts />} />
-            <Route path="/crop-calendar" element={<CropCalendar />} />
-            <Route path="/soil-advisory" element={<SoilAdvisory />} />
-            <Route path="/transport-pooling" element={<TransportPooling />} />
-            <Route path="/credit-insurance" element={<CreditInsurance />} />
-            <Route path="/traceability" element={<TraceabilityQR />} />
-            <Route path="/grievance" element={<Grievance />} />
+            <Route
+              path="/gps"
+              element={
+                <ProtectedRoute>
+                  <GpsLocator />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/mandi-compare"
+              element={
+                <ProtectedRoute>
+                  <MandiCompare />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/smart-alerts"
+              element={
+                <ProtectedRoute>
+                  <SmartAlerts />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/crop-calendar"
+              element={
+                <ProtectedRoute>
+                  <CropCalendar />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/soil-advisory"
+              element={
+                <ProtectedRoute>
+                  <SoilAdvisory />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/transport-pooling"
+              element={
+                <ProtectedRoute>
+                  <TransportPooling />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/credit-insurance"
+              element={
+                <ProtectedRoute>
+                  <CreditInsurance />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/traceability"
+              element={
+                <ProtectedRoute>
+                  <TraceabilityQR />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/grievance"
+              element={
+                <ProtectedRoute>
+                  <Grievance />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </main>
         {!isLogin && <Chatbot />}
