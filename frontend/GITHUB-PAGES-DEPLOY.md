@@ -37,6 +37,8 @@ After the workflow finishes (about 2–3 minutes), the site is at:
 
 (Replace `Seetharam2000` and `AgriSeva2.0` with your username and repo name if different.)
 
+**Use this link when sharing the app.** Opening it always shows the **login page first**; nobody can access the app (dashboard, prices, weather, etc.) without logging in.
+
 ---
 
 ## 4. Optional: build and deploy from your machine

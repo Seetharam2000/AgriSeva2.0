@@ -32,10 +32,11 @@ import Grievance from "./pages/Grievance.jsx";
 export default function App() {
   const location = useLocation();
   const token = localStorage.getItem("agriseva_token");
-  const isLogin = location.pathname === "/login";
+  const path = location.pathname.replace(/\/$/, "") || "/";
+  const isLogin = path === "/login";
   const [navOpen, setNavOpen] = useState(false);
 
-  // Always show login when not authenticated (no token) — don't rely on route order
+  // Enforce login-first: no token and not on login page → redirect to login (no way inside app without login)
   if (!token && !isLogin) {
     return <Navigate to="/login" replace />;
   }
@@ -106,7 +107,7 @@ export default function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/about" element={<About />} />
+            <Route path="/about" element={<ProtectedRoute><About /></ProtectedRoute>} />
             <Route
               path="/payments"
               element={
@@ -139,7 +140,7 @@ export default function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/founders" element={<Founders />} />
+            <Route path="/founders" element={<ProtectedRoute><Founders /></ProtectedRoute>} />
             <Route
               path="/gps"
               element={
