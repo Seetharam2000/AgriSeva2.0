@@ -37,9 +37,19 @@ jobs:
 
       - name: Build
         env:
-          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
-          VITE_BASE_PATH: "/AgriSeva2.0"
+          # Set a fallback so build doesn't fail; replace with your Render URL in repo Secrets
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL || 'https://example.onrender.com' }}
+          # Base path must match GitHub Pages URL: https://USERNAME.github.io/REPO_NAME/
+          VITE_BASE_PATH: "/${{ github.event.repository.name }}"
         run: npm run build
+
+      - name: Prepare deployment (artifact root = site root)
+        working-directory: .
+        run: |
+          mkdir -p .pages
+          cp -r frontend/dist/. .pages/
+          ls -la .pages/
+          test -f .pages/index.html || (echo "ERROR: index.html missing" && exit 1)
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -47,7 +57,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: frontend/dist
+          path: .pages
 
   deploy:
     environment:
