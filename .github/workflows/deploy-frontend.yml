@@ -48,6 +48,7 @@ jobs:
         run: |
           mkdir -p .pages
           cp -r frontend/dist/. .pages/
+          cp .pages/index.html .pages/404.html
           ls -la .pages/
           test -f .pages/index.html || (echo "ERROR: index.html missing" && exit 1)
 
