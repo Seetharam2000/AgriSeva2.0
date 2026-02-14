@@ -10,6 +10,7 @@ const translations = {
     officialDemo: "Official Demo",
     language: "Language",
     aadhaarLogin: "Aadhaar Login",
+    logout: "Log out",
     dashboard: "Farmer Dashboard",
     priceForecast: "Price Forecast",
     weatherAlerts: "Weather Alerts",

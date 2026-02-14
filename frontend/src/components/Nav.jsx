@@ -1,9 +1,17 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useLanguage } from "../i18n.jsx";
 
 export default function Nav({ isOpen, onClose }) {
+  const navigate = useNavigate();
   const { t } = useLanguage();
   const linkProps = { onClick: onClose };
+
+  const handleLogout = () => {
+    localStorage.removeItem("agriseva_token");
+    localStorage.removeItem("agriseva_user_name");
+    onClose();
+    navigate("/login");
+  };
   const enamOptions = [
     { label: "Commodity", href: "https://enam.gov.in/web/commodity" },
     { label: "State Unified License", href: "https://enam.gov.in/web/state-unified-license" },
@@ -42,6 +50,9 @@ export default function Nav({ isOpen, onClose }) {
         <NavLink className="nav-link" to="/login" {...linkProps}>
           {t("aadhaarLogin")}
         </NavLink>
+        <button type="button" className="nav-link nav-link-button" onClick={handleLogout}>
+          {t("logout")}
+        </button>
         <NavLink className="nav-link" to="/dashboard" {...linkProps}>
           {t("dashboard")}
         </NavLink>

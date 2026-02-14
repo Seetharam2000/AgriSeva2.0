@@ -31,8 +31,14 @@ import Grievance from "./pages/Grievance.jsx";
 
 export default function App() {
   const location = useLocation();
+  const token = localStorage.getItem("agriseva_token");
   const isLogin = location.pathname === "/login";
   const [navOpen, setNavOpen] = useState(false);
+
+  // Always show login when not authenticated (no token) — don't rely on route order
+  if (!token && !isLogin) {
+    return <Navigate to="/login" replace />;
+  }
 
   return (
     <div className={isLogin ? "login-shell" : "app-shell app-bg"}>
@@ -206,6 +212,8 @@ export default function App() {
                 </ProtectedRoute>
               }
             />
+            {/* Catch-all: unauthenticated users already redirected in App; others go to dashboard */}
+            <Route path="*" element={<Navigate to={token ? "/dashboard" : "/login"} replace />} />
           </Routes>
         </main>
         {!isLogin && <Chatbot />}

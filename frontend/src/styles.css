@@ -155,6 +155,15 @@ body {
   color: #fff;
 }
 
+.nav-link-button {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+}
+
 .page {
   padding: 24px 40px 32px;
 }
@@ -217,6 +226,21 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
+}
+
+.logout-btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background: #f1f5f9;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #0f172a;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #e2e8f0;
 }
 
 .lang-label {

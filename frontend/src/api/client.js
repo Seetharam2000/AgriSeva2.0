@@ -22,11 +22,19 @@ client.interceptors.request.use(
   }
 );
 
-// Add response interceptor for better error handling
+// Add response interceptor: clear token on 401 so user is sent to login
 client.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Log error for debugging
+    if (error.response?.status === 401) {
+      localStorage.removeItem("agriseva_token");
+      localStorage.removeItem("agriseva_user_name");
+      if (typeof window !== "undefined" && !window.location.pathname.endsWith("/login")) {
+        const base = (import.meta.env.BASE_URL || "/").replace(/\/$/, "") || "/";
+        const loginPath = base === "/" ? "/login" : base + "/login";
+        window.location.replace(window.location.origin + loginPath);
+      }
+    }
     if (error.response) {
       console.error("API Error:", error.response.status, error.response.data);
     } else if (error.request) {

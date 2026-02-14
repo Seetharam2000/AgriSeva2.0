@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../i18n.jsx";
 import logoImage from "../assets/agriseva-logo.jpeg";
 import flagImage from "../assets/india-flag.png";
@@ -18,7 +19,15 @@ const languageOptions = [
 ];
 
 export default function Header({ onMenuClick }) {
+  const navigate = useNavigate();
   const { language, setLanguage, t } = useLanguage();
+
+  const handleLogout = () => {
+    localStorage.removeItem("agriseva_token");
+    localStorage.removeItem("agriseva_user_name");
+    navigate("/login");
+  };
+
   return (
     <header className="topbar">
       <div className="topbar-left">
@@ -46,6 +55,9 @@ export default function Header({ onMenuClick }) {
         </div>
       </div>
       <div className="topbar-actions">
+        <button type="button" className="logout-btn" onClick={handleLogout}>
+          {t("logout") || "Log out"}
+        </button>
         <img
           src={flagImage}
           alt="Indian flag"
