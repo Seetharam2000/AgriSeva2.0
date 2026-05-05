@@ -1,0 +1,22 @@
+{
+  "Madurai": [
+    { "name": "Madurai Central", "price": 1540, "transport_cost": 90 },
+    { "name": "Dindigul Yard", "price": 1520, "transport_cost": 60 },
+    { "name": "Tiruchirappalli", "price": 1555, "transport_cost": 120 }
+  ],
+  "Coimbatore": [
+    { "name": "Coimbatore Main", "price": 1505, "transport_cost": 70 },
+    { "name": "Erode Market", "price": 1490, "transport_cost": 50 },
+    { "name": "Tiruppur Yard", "price": 1515, "transport_cost": 95 }
+  ],
+  "Salem": [
+    { "name": "Salem Central", "price": 1495, "transport_cost": 55 },
+    { "name": "Dharmapuri Yard", "price": 1480, "transport_cost": 45 },
+    { "name": "Namakkal Market", "price": 1502, "transport_cost": 80 }
+  ],
+  "Thanjavur": [
+    { "name": "Thanjavur Central", "price": 1522, "transport_cost": 75 },
+    { "name": "Kumbakonam Yard", "price": 1510, "transport_cost": 60 },
+    { "name": "Tiruvarur Market", "price": 1530, "transport_cost": 90 }
+  ]
+}

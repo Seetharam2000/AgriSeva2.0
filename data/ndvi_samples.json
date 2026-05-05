@@ -1,0 +1,14 @@
+{
+  "Madurai": {
+    "Tomato": 0.72
+  },
+  "Coimbatore": {
+    "Tomato": 0.58
+  },
+  "Salem": {
+    "Tomato": 0.43
+  },
+  "Thanjavur": {
+    "Tomato": 0.65
+  }
+}
