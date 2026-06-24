@@ -53,8 +53,15 @@ export default function Login() {
         let errorMessage = "Unable to verify Aadhaar. Please try again.";
         
         if (error.response) {
-          // Server responded with error
-          errorMessage = error.response.data?.detail || error.response.data?.message || `Server error: ${error.response.status}`;
+          if (error.response.status === 404) {
+            errorMessage =
+              "API route not found. In Vercel, set VITE_API_BASE_URL to your Render backend (e.g. https://agriseva2-0-6.onrender.com), then redeploy.";
+          } else {
+            errorMessage =
+              error.response.data?.detail ||
+              error.response.data?.message ||
+              `Server error: ${error.response.status}`;
+          }
         } else if (error.request) {
           // Request made but no response
           errorMessage = "Cannot connect to server. Please make sure the backend is running on http://localhost:8000";
