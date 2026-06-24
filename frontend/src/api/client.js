@@ -1,9 +1,22 @@
 import axios from "axios";
 
-const API_BASE = (import.meta.env.VITE_API_BASE_URL || "http://localhost:8000").replace(
-  /\/$/,
-  ""
-);
+function resolveApiBase() {
+  if (import.meta.env.VITE_API_BASE_URL) {
+    return import.meta.env.VITE_API_BASE_URL;
+  }
+
+  if (
+    typeof window !== "undefined" &&
+    (window.location.hostname.includes("vercel.app") ||
+      window.location.hostname.includes("agriseva"))
+  ) {
+    return "https://agriseva2-0-6.onrender.com";
+  }
+
+  return "http://localhost:8000";
+}
+
+export const API_BASE = resolveApiBase().replace(/\/$/, "");
 
 const client = axios.create({
   baseURL: API_BASE,

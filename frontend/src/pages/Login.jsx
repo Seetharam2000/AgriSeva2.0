@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import client from "../api/client.js";
+import client, { API_BASE } from "../api/client.js";
 import loginBg from "../assets/login-bg.jpeg";
 import loginCardBg from "../assets/login-card-bg.jpg";
 import logoImage from "../assets/agriseva-logo.jpeg";
@@ -64,7 +64,7 @@ export default function Login() {
           }
         } else if (error.request) {
           // Request made but no response
-          errorMessage = "Cannot connect to server. Please make sure the backend is running on http://localhost:8000";
+          errorMessage = `Cannot connect to API at ${API_BASE}. Check that the Render backend is running.`;
         } else {
           // Something else happened
           errorMessage = error.message || "An unexpected error occurred.";
