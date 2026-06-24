@@ -1,130 +1,224 @@
-import React, { useEffect, useMemo, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import Nav from "./components/Nav.jsx";
 import Header from "./components/Header.jsx";
-import RegionSelector from "./components/RegionSelector.jsx";
-import SummaryCard from "./components/SummaryCard.jsx";
-import RecommendationCard from "./components/RecommendationCard.jsx";
-import AlertSection from "./components/AlertSection.jsx";
-import PriceChart from "./components/PriceChart.jsx";
-import MarketComparison from "./components/MarketComparison.jsx";
-import TransportProfit from "./components/TransportProfit.jsx";
-
-const API_BASE =
-  import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") ||
-  "http://localhost:8000";
-
-const defaultFarmer = {
-  name: "Lakshmi Devi",
-  crop: "Tomato"
-};
+import Chatbot from "./components/Chatbot.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import AuthRedirect from "./components/AuthRedirect.jsx";
+import LoginRedirect from "./components/LoginRedirect.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
+import Login from "./pages/Login.jsx";
+import PriceForecast from "./pages/PriceForecast.jsx";
+import WeatherAlerts from "./pages/WeatherAlerts.jsx";
+import CropHealthMap from "./pages/CropHealthMap.jsx";
+import AuctionListings from "./pages/AuctionListings.jsx";
+import Feedback from "./pages/Feedback.jsx";
+import About from "./pages/About.jsx";
+import Payments from "./pages/Payments.jsx";
+import NgoVolunteering from "./pages/NgoVolunteering.jsx";
+import Ads from "./pages/Ads.jsx";
+import Premium from "./pages/Premium.jsx";
+import Founders from "./pages/Founders.jsx";
+import GpsLocator from "./pages/GpsLocator.jsx";
+import MandiCompare from "./pages/MandiCompare.jsx";
+import SmartAlerts from "./pages/SmartAlerts.jsx";
+import CropCalendar from "./pages/CropCalendar.jsx";
+import SoilAdvisory from "./pages/SoilAdvisory.jsx";
+import TransportPooling from "./pages/TransportPooling.jsx";
+import CreditInsurance from "./pages/CreditInsurance.jsx";
+import TraceabilityQR from "./pages/TraceabilityQR.jsx";
+import Grievance from "./pages/Grievance.jsx";
 
 export default function App() {
-  const [region, setRegion] = useState("Madurai");
-  const [prediction, setPrediction] = useState(null);
-  const [weatherAlert, setWeatherAlert] = useState(null);
-  const [ndvi, setNdvi] = useState(null);
-  const [marketComparison, setMarketComparison] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const location = useLocation();
+  const token = localStorage.getItem("agriseva_token");
+  const path = location.pathname.replace(/\/$/, "") || "/";
+  const isLogin = path === "/login";
+  const [navOpen, setNavOpen] = useState(false);
 
-  const cropLabel = useMemo(
-    () => `${defaultFarmer.crop} · ${region}`,
-    [region]
-  );
-
-  useEffect(() => {
-    let active = true;
-    async function loadData() {
-      setLoading(true);
-      setError(null);
-      try {
-        const [predictRes, weatherRes, ndviRes, marketRes] =
-          await Promise.all([
-            axios.post(`${API_BASE}/prices/predict`, {
-              crop: defaultFarmer.crop,
-              region,
-              horizon_days: 14
-            }),
-            axios.get(`${API_BASE}/weather/risk-alerts`, {
-              params: { region }
-            }),
-            axios.get(`${API_BASE}/ndvi/health-status`, {
-              params: { crop: defaultFarmer.crop, region }
-            }),
-            axios.get(`${API_BASE}/market/compare`, {
-              params: { crop: defaultFarmer.crop, region }
-            })
-          ]);
-
-        if (!active) return;
-        setPrediction(predictRes.data);
-        setWeatherAlert(weatherRes.data);
-        setNdvi(ndviRes.data);
-        setMarketComparison(marketRes.data);
-      } catch (loadError) {
-        console.error("Failed to load data", loadError);
-        if (active) {
-          setError(
-            API_BASE.includes("localhost")
-              ? "Cannot reach the API. Start the backend with: uvicorn main:app --reload (from the backend folder)."
-              : `Cannot reach the API at ${API_BASE}. Check VITE_API_BASE_URL in Vercel and that the Render backend is running.`
-          );
-        }
-      } finally {
-        if (active) setLoading(false);
-      }
-    }
-
-    loadData();
-    return () => {
-      active = false;
-    };
-  }, [region]);
+  // Enforce login-first: no token and not on login page → redirect to login (no way inside app without login)
+  if (!token && !isLogin) {
+    return <Navigate to="/login" replace />;
+  }
 
   return (
-    <div className="app">
-      <Header farmer={defaultFarmer} />
-      {error && (
-        <div className="error-banner" role="alert">
-          {error}
-        </div>
+    <div className={isLogin ? "login-shell" : "app-shell app-bg"}>
+      {!isLogin && (
+        <>
+          <div
+            className={`sidebar-backdrop ${navOpen ? "sidebar-backdrop-visible" : ""}`}
+            onClick={() => setNavOpen(false)}
+            aria-hidden="true"
+          />
+          <Nav isOpen={navOpen} onClose={() => setNavOpen(false)} />
+        </>
       )}
-      <main className="dashboard">
-        <section className="top-row">
-          <RegionSelector value={region} onChange={setRegion} />
-          <SummaryCard
-            title="Crop & Region"
-            value={cropLabel}
-            subtitle="Decision support focused view"
-          />
-          <SummaryCard
-            title="When-to-Sell"
-            value={prediction?.recommendation || "Loading..."}
-            subtitle={prediction?.explanation || "Fetching recommendation"}
-            status={prediction?.recommendation}
-          />
-          <SummaryCard
-            title="Weather Risk"
-            value={weatherAlert?.risk_level || "Checking..."}
-            subtitle={weatherAlert?.message || "Fetching alert"}
-            status={weatherAlert?.risk_level}
-          />
-        </section>
-
-        <section className="main-grid">
-          <div className="card wide">
-            <h3>Price Forecast (Next 7–30 Days)</h3>
-            <PriceChart history={prediction?.history} forecast={prediction?.forecast} />
-          </div>
-          <RecommendationCard prediction={prediction} loading={loading} />
-          <AlertSection weatherAlert={weatherAlert} ndvi={ndvi} />
-        </section>
-
-        <section className="lower-grid">
-          <MarketComparison data={marketComparison} />
-          <TransportProfit data={marketComparison} />
-        </section>
-      </main>
+      <div className="main-area">
+        {!isLogin && <Header onMenuClick={() => setNavOpen((v) => !v)} />}
+        <main className={isLogin ? "login-page" : "page"}>
+          <Routes>
+            <Route path="/login" element={<LoginRedirect />} />
+            <Route path="/" element={<AuthRedirect />} />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/prices"
+              element={
+                <ProtectedRoute>
+                  <PriceForecast />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/weather"
+              element={
+                <ProtectedRoute>
+                  <WeatherAlerts />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/ndvi"
+              element={
+                <ProtectedRoute>
+                  <CropHealthMap />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/auction"
+              element={
+                <ProtectedRoute>
+                  <AuctionListings />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/feedback"
+              element={
+                <ProtectedRoute>
+                  <Feedback />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/about" element={<ProtectedRoute><About /></ProtectedRoute>} />
+            <Route
+              path="/payments"
+              element={
+                <ProtectedRoute>
+                  <Payments />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/ngo-volunteering"
+              element={
+                <ProtectedRoute>
+                  <NgoVolunteering />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/ads"
+              element={
+                <ProtectedRoute>
+                  <Ads />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/premium"
+              element={
+                <ProtectedRoute>
+                  <Premium />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/founders" element={<ProtectedRoute><Founders /></ProtectedRoute>} />
+            <Route
+              path="/gps"
+              element={
+                <ProtectedRoute>
+                  <GpsLocator />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/mandi-compare"
+              element={
+                <ProtectedRoute>
+                  <MandiCompare />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/smart-alerts"
+              element={
+                <ProtectedRoute>
+                  <SmartAlerts />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/crop-calendar"
+              element={
+                <ProtectedRoute>
+                  <CropCalendar />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/soil-advisory"
+              element={
+                <ProtectedRoute>
+                  <SoilAdvisory />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/transport-pooling"
+              element={
+                <ProtectedRoute>
+                  <TransportPooling />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/credit-insurance"
+              element={
+                <ProtectedRoute>
+                  <CreditInsurance />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/traceability"
+              element={
+                <ProtectedRoute>
+                  <TraceabilityQR />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/grievance"
+              element={
+                <ProtectedRoute>
+                  <Grievance />
+                </ProtectedRoute>
+              }
+            />
+            {/* Catch-all: unauthenticated users already redirected in App; others go to dashboard */}
+            <Route path="*" element={<Navigate to={token ? "/dashboard" : "/login"} replace />} />
+          </Routes>
+        </main>
+        {!isLogin && <Chatbot />}
+      </div>
     </div>
   );
 }

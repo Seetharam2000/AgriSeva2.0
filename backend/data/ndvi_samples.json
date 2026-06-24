@@ -1,0 +1,47 @@
+[
+  {
+    "farm_id": "FARM-001",
+    "region": "Nagpur",
+    "crop": "Tomato",
+    "red": 0.18,
+    "nir": 0.62,
+    "lat": 21.1458,
+    "lon": 79.0882
+  },
+  {
+    "farm_id": "FARM-002",
+    "region": "Nagpur",
+    "crop": "Tomato",
+    "red": 0.32,
+    "nir": 0.55,
+    "lat": 21.1521,
+    "lon": 79.1024
+  },
+  {
+    "farm_id": "FARM-003",
+    "region": "Nagpur",
+    "crop": "Tomato",
+    "red": 0.41,
+    "nir": 0.52,
+    "lat": 21.1322,
+    "lon": 79.0729
+  },
+  {
+    "farm_id": "FARM-011",
+    "region": "Nashik",
+    "crop": "Wheat",
+    "red": 0.2,
+    "nir": 0.6,
+    "lat": 19.9975,
+    "lon": 73.7898
+  },
+  {
+    "farm_id": "FARM-012",
+    "region": "Nashik",
+    "crop": "Wheat",
+    "red": 0.36,
+    "nir": 0.5,
+    "lat": 20.0051,
+    "lon": 73.8011
+  }
+]

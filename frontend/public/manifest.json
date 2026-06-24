@@ -1,0 +1,11 @@
+{
+  "name": "Agriseva",
+  "short_name": "Agriseva",
+  "description": "Farm-to-market intelligence for Indian farmers. Prices, weather, mandi compare, crop calendar and more.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#0f3b1f",
+  "orientation": "portrait-primary",
+  "icons": []
+}
