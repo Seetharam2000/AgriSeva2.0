@@ -53,6 +53,16 @@ body {
   gap: 20px;
 }
 
+.error-banner {
+  margin-bottom: 20px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+  font-size: 14px;
+}
+
 .top-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));

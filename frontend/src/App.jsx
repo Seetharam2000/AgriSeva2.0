@@ -9,7 +9,9 @@ import PriceChart from "./components/PriceChart.jsx";
 import MarketComparison from "./components/MarketComparison.jsx";
 import TransportProfit from "./components/TransportProfit.jsx";
 
-const API_BASE = "http://localhost:8000";
+const API_BASE =
+  import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") ||
+  "http://localhost:8000";
 
 const defaultFarmer = {
   name: "Lakshmi Devi",
@@ -23,6 +25,7 @@ export default function App() {
   const [ndvi, setNdvi] = useState(null);
   const [marketComparison, setMarketComparison] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const cropLabel = useMemo(
     () => `${defaultFarmer.crop} · ${region}`,
@@ -33,6 +36,7 @@ export default function App() {
     let active = true;
     async function loadData() {
       setLoading(true);
+      setError(null);
       try {
         const [predictRes, weatherRes, ndviRes, marketRes] =
           await Promise.all([
@@ -57,8 +61,15 @@ export default function App() {
         setWeatherAlert(weatherRes.data);
         setNdvi(ndviRes.data);
         setMarketComparison(marketRes.data);
-      } catch (error) {
-        console.error("Failed to load data", error);
+      } catch (loadError) {
+        console.error("Failed to load data", loadError);
+        if (active) {
+          setError(
+            API_BASE.includes("localhost")
+              ? "Cannot reach the API. Start the backend with: uvicorn main:app --reload (from the backend folder)."
+              : `Cannot reach the API at ${API_BASE}. Check VITE_API_BASE_URL in Vercel and that the Render backend is running.`
+          );
+        }
       } finally {
         if (active) setLoading(false);
       }
@@ -73,6 +84,11 @@ export default function App() {
   return (
     <div className="app">
       <Header farmer={defaultFarmer} />
+      {error && (
+        <div className="error-banner" role="alert">
+          {error}
+        </div>
+      )}
       <main className="dashboard">
         <section className="top-row">
           <RegionSelector value={region} onChange={setRegion} />

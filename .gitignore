@@ -5,6 +5,12 @@ dist
 frontend/dist
 
 .env
+frontend/.env
+
+__pycache__
+*.pyc
+*.pyo
+*.zip
 
 *.log
 .DS_Store
